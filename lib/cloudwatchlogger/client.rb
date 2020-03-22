@@ -5,12 +5,12 @@ require 'uuid'
 
 module CloudWatchLogger
   module Client
-    def self.new(credentials, log_group_name, log_stream_name = nil, opts = {})
+    def self.new(credentials, log_group_name, log_stream_name = nil, opts = {}, exception_handler: nil)
       unless log_group_name
         raise LogGroupNameRequired, 'log_group_name is required'
       end
 
-      CloudWatchLogger::Client::AWS_SDK.new(credentials, log_group_name, log_stream_name, opts)
+      CloudWatchLogger::Client::AWS_SDK.new(credentials, log_group_name, log_stream_name, opts, exception_handler: nil)
     end
 
     module InstanceMethods

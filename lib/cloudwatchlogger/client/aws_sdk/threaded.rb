@@ -25,6 +25,11 @@ module CloudWatchLogger
           @thread.kill # Try not to leak threads, should already be dead anyway
           start_thread
           retry
+        rescue Exception => ex
+          # Pass any exception to an external exception handler, if one is provided
+          if @exception_handler.class == Proc
+            @exception_handler.call ex
+          end
         end
 
         private
