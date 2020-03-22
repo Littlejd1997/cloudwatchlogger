@@ -7,8 +7,8 @@ module CloudWatchLogger
   class LogGroupNameRequired < ArgumentError; end
   class LogEventRejected < ArgumentError; end
 
-  def self.new(credentials, log_group_name, log_stream_name=nil, opts={})
-    client = CloudWatchLogger::Client.new(credentials, log_group_name, log_stream_name, opts)
+  def self.new(credentials, log_group_name, log_stream_name = nil, opts = {}, exception_handler =  nil)
+    client = CloudWatchLogger::Client.new(credentials, log_group_name, log_stream_name, opts, exception_handler)
     logger = Logger.new(client)
 
     if client.respond_to?(:formatter)

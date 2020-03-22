@@ -5,13 +5,12 @@ require 'uuid'
 
 module CloudWatchLogger
   module Client
-
-    def self.new(credentials, log_group_name, log_stream_name=nil, opts={})
+    def self.new(credentials, log_group_name, log_stream_name = nil, opts = {}, exception_handler = nil)
       unless log_group_name
         raise LogGroupNameRequired.new
       end
 
-      CloudWatchLogger::Client::AWS_SDK.new(credentials, log_group_name, log_stream_name, opts)
+      CloudWatchLogger::Client::AWS_SDK.new(credentials, log_group_name, log_stream_name, opts, exception_handler)
     end
 
     module InstanceMethods
@@ -52,9 +51,9 @@ module CloudWatchLogger
 
       def massage_message(incoming_message, severity, processid)
         outgoing_message = ""
-        
+
         outgoing_message << "pid=#{processid}, thread=#{Thread.current.object_id}, severity=#{severity}, "
-        
+
         case incoming_message
         when Hash
           outgoing_message << masher(incoming_message)
@@ -73,7 +72,7 @@ module CloudWatchLogger
       def setup_log_group_name(name)
         @log_group_name = name
       end
-      
+
       def setup_log_stream_name(name)
         @log_stream_name = name
         if @log_stream_name.nil?
