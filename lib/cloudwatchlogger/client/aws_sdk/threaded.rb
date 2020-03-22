@@ -1,4 +1,4 @@
-require 'aws-sdk-cloudwatchlogs'
+require 'aws-sdk'
 require 'thread'
 
 module CloudWatchLogger
